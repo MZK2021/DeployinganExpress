@@ -12,7 +12,7 @@ app.listen(port, () => {
 
 // Homepage
 app.get('/', (req: express.Request, res: express.Response) => {
-  res.status(200).send("Hello World!");
+  res.status(200).send("Hello World2!");
 });
 
 // GET
