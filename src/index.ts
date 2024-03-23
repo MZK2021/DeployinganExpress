@@ -10,6 +10,9 @@ import fs from 'fs'
 const app: express.Application = express();
 const port = 3000;
 
+const publicDirectoryPath = path.join(__dirname, 'public');
+
+
 
 app.use(express.text());
 
@@ -19,7 +22,7 @@ app.listen(port, () => {
 
 // Homepage
 app.get('/', (req: express.Request, res: express.Response) => {
-    res.sendFile('Qrdomain.html')
+    res.sendFile('Qrdomain.html', { root: publicDirectoryPath });
 });
 
 // GET
@@ -33,7 +36,7 @@ app.post('/post', (req: express.Request, res: express.Response) => {
       let url = req.body['Domain']
       var qr_svg = qr.image(url);
  qr_svg.pipe(fs.createWriteStream('My_qr_fromForm.png'));
- res.sendFile('QR.html')
+ res.sendFile('QR.html', { root: publicDirectoryPath });
 });
 
 //PUT
