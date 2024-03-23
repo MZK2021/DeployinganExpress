@@ -1,8 +1,15 @@
 // src/index.ts
 import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import bodyParser from 'body-parser'
+import  qr  from 'qr-image'; 
+import fs from 'fs'
 
 const app: express.Application = express();
 const port = 3000;
+
 
 app.use(express.text());
 
@@ -12,7 +19,7 @@ app.listen(port, () => {
 
 // Homepage
 app.get('/', (req: express.Request, res: express.Response) => {
-  res.status(200).send("Hello World2!");
+    res.sendFile('Qrdomain.html')
 });
 
 // GET
@@ -22,7 +29,11 @@ app.get('/get', (req: express.Request, res: express.Response) => {
 
 //POST
 app.post('/post', (req: express.Request, res: express.Response) => {
-  res.status(200).header("x-post-header", "post-header-value").send(req.body.toString());
+    console.log(req.body['Domain'])
+      let url = req.body['Domain']
+      var qr_svg = qr.image(url);
+ qr_svg.pipe(fs.createWriteStream('My_qr_fromForm.png'));
+ res.sendFile('QR.html')
 });
 
 //PUT
